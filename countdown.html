@@ -114,8 +114,12 @@ function calcDays() {
   const weeks = Math.floor(absDays / 7);
   const months = Math.round(absDays / 30.44);
   const hours = absDays * 24;
-  const detailsZh = `📅 共 <b>${absDays}</b> 天 ≈ <b>${weeks}</b> 周 ≈ <b>${months}</b> 个月<br>⏰ 约 <b>${hours.toLocaleString()}</b> 小时<br>💕 从 ${document.getElementById('startDate').value} 到 ${document.getElementById('endDate').value || '今天'}`;
-  const detailsEn = `📅 Total <b>${absDays}</b> days ≈ <b>${weeks}</b> weeks ≈ <b>${months}</b> months<br>⏰ About <b>${hours.toLocaleString()}</b> hours<br>💕 From ${document.getElementById('startDate').value} to ${document.getElementById('endDate').value || 'today'}`;
+  const startVal = document.getElementById('startDate').value;
+  const endVal = document.getElementById('endDate').value;
+  const safeStart = startVal ? startVal.replace(/[<>"']/g, '') : '';
+  const safeEnd = endVal ? endVal.replace(/[<>"']/g, '') : (lang === 'zh' ? '今天' : 'today');
+  const detailsZh = `📅 共 <b>${absDays}</b> 天 ≈ <b>${weeks}</b> 周 ≈ <b>${months}</b> 个月<br>⏰ 约 <b>${hours.toLocaleString()}</b> 小时<br>💕 从 ${safeStart} 到 ${safeEnd}`;
+  const detailsEn = `📅 Total <b>${absDays}</b> days ≈ <b>${weeks}</b> weeks ≈ <b>${months}</b> months<br>⏰ About <b>${hours.toLocaleString()}</b> hours<br>💕 From ${safeStart} to ${safeEnd}`;
   document.getElementById('details').innerHTML = lang === 'zh' ? detailsZh : detailsEn;
   
   document.getElementById('result').style.display = 'block';
